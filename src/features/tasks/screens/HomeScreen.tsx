@@ -40,14 +40,14 @@ export const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     // 1. Fetch local tasks immediately, which then initiates Firestore merges if online
-    dispatch(fetchTasksThunk());
+    dispatch(fetchTasksThunk() as any);
 
     // 2. Setup sync listener to watch for background sync actions
     const removeListener = syncEngine.addStateListener((syncing) => {
       setIsSyncing(syncing);
       if (!syncing) {
         // Refresh local view when background sync completes
-        dispatch(fetchTasksThunk());
+        dispatch(fetchTasksThunk() as any);
       }
     });
 
@@ -61,13 +61,13 @@ export const HomeScreen: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      await dispatch(
+      await (dispatch(
         createTaskThunk({
           title: newTitle.trim(),
           description: newDescription.trim(),
           isCompleted: false,
-        })
-      ).unwrap();
+        }) as any
+      ) as any).unwrap();
 
       setNewTitle('');
       setNewDescription('');
@@ -80,15 +80,15 @@ export const HomeScreen: React.FC = () => {
   };
 
   const handleToggleComplete = (id: string, isCompleted: boolean) => {
-    dispatch(updateTaskThunk({ id, updates: { isCompleted } }));
+    dispatch(updateTaskThunk({ id, updates: { isCompleted } }) as any);
   };
 
   const handleDeleteTask = (id: string) => {
-    dispatch(deleteTaskThunk(id));
+    dispatch(deleteTaskThunk(id) as any);
   };
 
   const handleRefresh = () => {
-    dispatch(fetchTasksThunk());
+    dispatch(fetchTasksThunk() as any);
     syncEngine.triggerSync();
   };
 

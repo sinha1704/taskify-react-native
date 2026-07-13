@@ -46,9 +46,9 @@ class NotificationService {
 
       // 5. Handle initial notification check if the app was launched by clicking a notification
       const initialNotification = await notifee.getInitialNotification();
-      if (initialNotification) {
+      if (initialNotification && initialNotification.notification) {
         console.log('[NotificationService] App launched via notification click:', initialNotification);
-        this.handleNotificationEvent(initialNotification);
+        this.handleDeepLink(initialNotification.notification.data);
       }
 
       // 6. Handle background notifications click intent (FCM fallback)
@@ -104,8 +104,8 @@ class NotificationService {
    * Displays a local pop-up notification from a received FCM message.
    */
   private async displayLocalNotification(message: FirebaseMessagingTypes.RemoteMessage): Promise<void> {
-    const title = message.notification?.title || message.data?.title || 'Task Update';
-    const body = message.notification?.body || message.data?.body || 'You have updates.';
+    const title = message.notification?.title || (typeof message.data?.title === 'string' ? message.data.title : 'Task Update');
+    const body = message.notification?.body || (typeof message.data?.body === 'string' ? message.data.body : 'You have updates.');
 
     try {
       await notifee.displayNotification({
@@ -196,8 +196,8 @@ class NotificationService {
     if (!data) return;
 
     try {
-      const screen = data.screen as string;
-      const taskId = data.taskId as string;
+      const screen = typeof data.screen === 'string' ? data.screen : undefined;
+      const taskId = typeof data.taskId === 'string' ? data.taskId : undefined;
 
       if (screen === 'TaskDetail' && taskId) {
         const linkUrl = `taskify://task/${taskId}`;

@@ -72,7 +72,7 @@ export const TaskDetailScreen: React.FC = () => {
 
     setIsSaving(true);
     try {
-      await dispatch(
+      await (dispatch(
         updateTaskThunk({
           id: taskId,
           updates: {
@@ -80,8 +80,8 @@ export const TaskDetailScreen: React.FC = () => {
             description: description.trim(),
             isCompleted,
           },
-        })
-      ).unwrap();
+        }) as any
+      ) as any).unwrap();
 
       Alert.alert('Success', 'Task updated successfully.', [
         { text: 'OK', onPress: () => navigation.goBack() },
@@ -105,7 +105,7 @@ export const TaskDetailScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await dispatch(deleteTaskThunk(taskId)).unwrap();
+              await (dispatch(deleteTaskThunk(taskId) as any) as any).unwrap();
               navigation.goBack();
             } catch (error) {
               console.error('[TaskDetailScreen] Error deleting task:', error);
