@@ -4,148 +4,312 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taskify - Offline-First Task Management App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f0c1b;
-      --surface: rgba(255, 255, 255, 0.05);
-      --primary: #bb86fc;
-      --text: #e6e1e5;
-      --text-secondary: #cac4d0;
-      --border: rgba(255, 255, 255, 0.1);
+      --bg: #0b0813;
+      --surface: rgba(255, 255, 255, 0.03);
+      --surface-hover: rgba(255, 255, 255, 0.07);
+      --primary: #c299ff;
+      --primary-glow: rgba(194, 153, 255, 0.15);
+      --text: #f3edf7;
+      --text-secondary: #9a95a6;
+      --border: rgba(255, 255, 255, 0.08);
       --success: #81c784;
     }
-    
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
+
     body {
-      background: radial-gradient(circle at center, #1b1437 0%, var(--bg) 100%);
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(98, 0, 238, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(187, 134, 252, 0.08) 0%, transparent 40%);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: 2rem;
+      padding: 1.5rem;
+      overflow-x: hidden;
     }
-    
-    .card {
-      background: var(--surface);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 3rem;
-      max-width: 680px;
+
+    .container {
+      max-width: 800px;
       width: 100%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Hero Card Section */
+    .hero-card {
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
+
     h1 {
-      font-size: 3rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
+      font-size: 3.5rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
+      color: #ffffff;
+      letter-spacing: -1.5px;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #ffffff 30%, #c299ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    
-    p {
+
+    .subtitle {
       color: var(--text-secondary);
       font-size: 1.15rem;
       line-height: 1.6;
-      margin-bottom: 2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
     }
-    
+
+    /* Badges */
     .badge-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.75rem;
+      gap: 0.6rem;
       margin-bottom: 2.5rem;
     }
-    
+
     .badge {
-      background: rgba(187, 134, 252, 0.15);
-      color: var(--primary);
+      background: var(--surface);
+      color: var(--text);
       padding: 0.5rem 1rem;
       border-radius: 50px;
       font-size: 0.85rem;
-      font-weight: 600;
-      border: 1px solid rgba(187, 134, 252, 0.25);
+      font-weight: 500;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
     }
 
-    .badge.success {
-      background: rgba(129, 199, 132, 0.15);
-      color: var(--success);
-      border-color: rgba(129, 199, 132, 0.25);
+    .badge:hover {
+      border-color: var(--primary);
+      background: var(--primary-glow);
     }
-    
+
+    .badge.status {
+      background: rgba(129, 199, 132, 0.08);
+      color: var(--success);
+      border-color: rgba(129, 199, 132, 0.2);
+    }
+
+    /* Action buttons */
     .btn-group {
       display: flex;
+      flex-direction: row;
       justify-content: center;
       gap: 1rem;
+      width: 100%;
     }
-    
+
     .btn {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.8rem;
+      border-radius: 14px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.2s ease-in-out;
+      font-size: 0.95rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      cursor: pointer;
     }
-    
+
     .btn-primary {
       background: var(--primary);
-      color: #0f0c1b;
+      color: #0b0813;
+      box-shadow: 0 8px 30px rgba(194, 153, 255, 0.25);
     }
-    
+
     .btn-primary:hover {
-      background: #d0bcff;
+      background: #ffffff;
+      box-shadow: 0 12px 40px rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
-    
+
     .btn-secondary {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.02);
       color: var(--text);
       border: 1px solid var(--border);
     }
-    
+
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--surface-hover);
+      border-color: var(--text-secondary);
       transform: translateY(-2px);
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(194, 153, 255, 0.3);
+      background: var(--surface-hover);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile Responsive Viewport Overrides */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .hero-card {
+        padding: 2.25rem 1.25rem;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        letter-spacing: -1px;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .badge-container {
+        margin-bottom: 2rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .feature-card {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Taskify</h1>
-    <p>
-      An advanced, production-grade Offline-First Task Management App built with React Native (TypeScript). Featuring local database replication, auto cloud sync scheduling, and local/push notification triggers.
-    </p>
-    
-    <div class="badge-container">
-      <span class="badge">React Native</span>
-      <span class="badge">TypeScript</span>
-      <span class="badge">Realm DB</span>
-      <span class="badge">Redux Toolkit</span>
-      <span class="badge">Firebase Auth</span>
-      <span class="badge">Firestore</span>
-      <span class="badge success">✓ Live Build</span>
+  <div class="container">
+    <!-- Hero Block -->
+    <div class="hero-card">
+      <h1>Taskify</h1>
+      <p class="subtitle">
+        An advanced, production-grade Offline-First Task Management App built with React Native and TypeScript.
+      </p>
+      
+      <div class="badge-container">
+        <span class="badge">React Native</span>
+        <span class="badge">TypeScript</span>
+        <span class="badge">Realm Database</span>
+        <span class="badge">Redux Toolkit</span>
+        <span class="badge">Firebase Auth</span>
+        <span class="badge">Cloud Firestore</span>
+        <span class="badge status">✓ Deployed Live</span>
+      </div>
+      
+      <div class="btn-group">
+        <a href="https://github.com/sinha1704/taskify-react-native" target="_blank" class="btn btn-primary">
+          View GitHub Repository
+        </a>
+        <a href="https://github.com/sinha1704/taskify-react-native/blob/main/README.md" target="_blank" class="btn btn-secondary">
+          Read Documentation
+        </a>
+      </div>
     </div>
-    
-    <div class="btn-group">
-      <a href="https://github.com/sinha1704/taskify-react-native" target="_blank" class="btn btn-primary">
-        View GitHub Repository
-      </a>
-      <a href="https://github.com/sinha1704/taskify-react-native/blob/main/README.md" target="_blank" class="btn btn-secondary">
-        Read Architecture docs
-      </a>
+
+    <!-- Feature Grid Section -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📲</div>
+        <div class="feature-title">Offline-First CRUD</div>
+        <div class="feature-desc">Read and write tasks locally instantly. Realm DB handles data locally when internet is offline.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Sync Engine</div>
+        <div class="feature-desc">Queued operations replay automatically to Firestore in structured batches when connection transitions online.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Firebase Auth</div>
+        <div class="feature-desc">Email/password authentication with session listener tracking state across app reboots.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <div class="feature-title">Trigger Reminders</div>
+        <div class="feature-desc">Local alarms scheduled via Notifee linked with FCM foreground and background message handlers.</div>
+      </div>
     </div>
   </div>
 </body>
