@@ -1,0 +1,42 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Realm
+*.realm
+*.realm.lock
+*.realm.management
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Xcode / iOS
+build/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata
+!*.xcworkspacedata
+DerivedData/
+ios/Pods/
+ios/build/
+
+# Android
+.gradle/
+build/
+local.properties
+*.apk
+*.aar
+android/app/build/
+android/.gradle/
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
