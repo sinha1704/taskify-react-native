@@ -192,7 +192,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
-      min-height: 480px;
+      height: 480px; /* Fixed equal height for panels on desktop */
       width: 100%;
       overflow: hidden; /* Prevent internal width leaks */
     }
@@ -278,11 +278,11 @@
 
     .sim-task-list {
       flex: 1;
+      min-height: 0; /* Require min-height for nested flex-child overflow */
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
       overflow-y: auto;
-      max-height: 280px;
     }
 
     .sim-task-item {
@@ -336,11 +336,11 @@
       border-radius: 12px;
       padding: 1rem;
       flex: 1;
+      min-height: 0; /* Require min-height for nested flex-child overflow */
       font-family: 'Fira Code', monospace;
       font-size: 0.8rem;
       color: #81c784;
       overflow-y: auto;
-      max-height: 380px;
     }
 
     /* Force JSON mock to wrap and prevent container stretching */
@@ -550,7 +550,7 @@
       }
 
       .sim-panel {
-        min-height: auto;
+        height: 420px; /* Fixed equal height on mobile as well */
         padding: 1rem;
       }
 
