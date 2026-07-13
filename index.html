@@ -11,7 +11,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   <style>
     :root {
-      --bg: #07050d;
+      --bg: #06040a;
       --surface: rgba(255, 255, 255, 0.02);
       --surface-hover: rgba(255, 255, 255, 0.05);
       --primary: #c299ff;
@@ -20,7 +20,8 @@
       --text-secondary: #8c8699;
       --border: rgba(255, 255, 255, 0.06);
       --success: #81c784;
-      --code-bg: #110e1a;
+      --error: #f2b8b5;
+      --code-bg: #0f0c18;
     }
 
     * {
@@ -32,8 +33,8 @@
     body {
       background-color: var(--bg);
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(98, 0, 238, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(187, 134, 252, 0.05) 0%, transparent 40%);
+        radial-gradient(circle at 10% 20%, rgba(98, 0, 238, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(187, 134, 252, 0.04) 0%, transparent 40%);
       color: var(--text);
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
@@ -45,7 +46,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       width: 100%;
       margin: auto;
       display: flex;
@@ -159,6 +160,185 @@
       background: var(--surface-hover);
       border-color: var(--text-secondary);
       transform: translateY(-2px);
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* Interactive Sync Simulator */
+    .sync-simulator {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sim-panel {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      min-height: 480px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Simulator network control toggle */
+    .network-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .net-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .net-btn.active-online {
+      background: rgba(129, 199, 132, 0.15);
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    .net-btn.active-offline {
+      background: rgba(242, 184, 181, 0.15);
+      color: var(--error);
+      border-color: var(--error);
+    }
+
+    /* Simulator list rendering */
+    .sim-input-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .sim-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .sim-input:focus {
+      border-color: var(--primary);
+    }
+
+    .sim-add-btn {
+      background: var(--primary);
+      color: #07050d;
+      border: none;
+      padding: 0 1.25rem;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .sim-task-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      overflow-y: auto;
+      max-height: 280px;
+    }
+
+    .sim-task-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: taskFadeIn 0.3s ease;
+    }
+
+    .task-meta {
+      flex: 1;
+    }
+
+    .task-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .task-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.25rem;
+      display: inline-block;
+    }
+
+    .badge-sync { color: var(--success); }
+    .badge-pending { color: var(--primary); animation: pulse 1.5s infinite; }
+
+    .sim-delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--error);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    /* Cloud Firestore mock side */
+    .firestore-docs {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      flex: 1;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: #81c784;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+
+    .firestore-placeholder {
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 6rem;
+      font-style: italic;
     }
 
     /* Code Showcase Component */
@@ -279,7 +459,18 @@
       line-height: 1.5;
     }
 
-    /* Keyframe Animations */
+    /* Animations */
+    @keyframes taskFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -291,20 +482,20 @@
       }
     }
 
-    /* Scrollbar styles */
-    .code-body::-webkit-scrollbar {
-      width: 8px;
+    /* Scrollbars */
+    .code-body::-webkit-scrollbar, .sim-task-list::-webkit-scrollbar, .firestore-docs::-webkit-scrollbar {
+      width: 6px;
     }
-    .code-body::-webkit-scrollbar-track {
-      background: var(--code-bg);
+    .code-body::-webkit-scrollbar-track, .sim-task-list::-webkit-scrollbar-track, .firestore-docs::-webkit-scrollbar-track {
+      background: transparent;
     }
-    .code-body::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
+    .code-body::-webkit-scrollbar-thumb, .sim-task-list::-webkit-scrollbar-thumb, .firestore-docs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 3px;
     }
 
     /* Mobile Responsive Viewport Overrides */
-    @media (max-width: 650px) {
+    @media (max-width: 750px) {
       body {
         padding: 1.5rem 1rem;
       }
@@ -332,6 +523,16 @@
       .btn {
         width: 100%;
         padding: 1rem;
+      }
+
+      .sync-simulator {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+        gap: 1.5rem;
+      }
+
+      .sim-panel {
+        min-height: auto;
       }
 
       .code-header {
@@ -380,7 +581,43 @@
       </div>
     </div>
 
+    <!-- Interactive Sync Simulator -->
+    <h2 class="section-title">Offline Replication Simulator</h2>
+    <div class="sync-simulator">
+      <!-- Local Device Simulator Panel -->
+      <div class="sim-panel">
+        <div class="panel-header">
+          <div class="panel-title">📱 Local Realm Database</div>
+          <div class="network-bar">
+            <button id="btn-online" class="net-btn active-online" onclick="setNetwork(true)">Online 🟢</button>
+            <button id="btn-offline" class="net-btn" onclick="setNetwork(false)">Offline 🔴</button>
+          </div>
+        </div>
+        
+        <div class="sim-input-row">
+          <input type="text" id="task-input" class="sim-input" placeholder="Enter task title (e.g. Write realm schema)" onkeydown="if(event.key==='Enter') addSimTask()" />
+          <button class="sim-add-btn" onclick="addSimTask()">Add</button>
+        </div>
+
+        <div id="task-list" class="sim-task-list">
+          <!-- Tasks load here -->
+        </div>
+      </div>
+
+      <!-- Cloud Firestore Database Panel -->
+      <div class="sim-panel">
+        <div class="panel-header">
+          <div class="panel-title">🔥 Firebase Firestore Console</div>
+          <div id="sync-indicator" style="font-size: 0.8rem; color: var(--text-secondary);">Idle</div>
+        </div>
+        <div id="firestore-docs" class="firestore-docs">
+          <div class="firestore-placeholder">Cloud storage is empty. Add tasks while Online, or transition from Offline to Online.</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Code Showcase Window -->
+    <h2 class="section-title">Browse Core Codebase Modules</h2>
     <div class="code-showcase">
       <div class="code-header">
         <div class="window-dots">
@@ -429,6 +666,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
   <script>
+    // Local memory states for simulator demo
+    let localTasks = [
+      { id: '1', title: 'Complete technical documentation', isCompleted: false, syncStatus: 'synced' },
+      { id: '2', title: 'Verify offline repository scripts', isCompleted: false, syncStatus: 'synced' }
+    ];
+    let firestoreDb = [...localTasks];
+    let isOnline = true;
+    let syncQueue = [];
+
     // Code Snippets variables representing our clean TypeScript implementation
     const codeSnippets = {
       sync: `// src/database/syncEngine.ts
@@ -512,24 +758,169 @@ export class Task extends Realm.Object<Task> {
     };
 
     function switchCode(key) {
-      // 1. Update active tab styling
       const tabs = document.querySelectorAll('.tab-btn');
       tabs.forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
 
-      // 2. Set code content
       const codeBlock = document.getElementById('code-block');
       codeBlock.textContent = codeSnippets[key];
-
-      // 3. Highlight syntax via Prism autoloader
       Prism.highlightElement(codeBlock);
     }
 
-    // Load initial code snippet on boot
+    // Toggle simulated network status
+    function setNetwork(online) {
+      isOnline = online;
+      const btnOnline = document.getElementById('btn-online');
+      const btnOffline = document.getElementById('btn-offline');
+
+      if (online) {
+        btnOnline.classList.add('active-online');
+        btnOffline.classList.remove('active-offline');
+        triggerBackgroundSync();
+      } else {
+        btnOnline.classList.remove('active-online');
+        btnOffline.classList.add('active-offline');
+      }
+      renderLists();
+    }
+
+    // Add task inside Simulator
+    function addSimTask() {
+      const input = document.getElementById('task-input');
+      const title = input.value.trim();
+      if (!title) return;
+
+      const newId = '_' + Math.random().toString(36).substr(2, 9);
+      const newTask = {
+        id: newId,
+        title: title,
+        isCompleted: false,
+        syncStatus: isOnline ? 'synced' : 'pending_create'
+      };
+
+      localTasks.unshift(newTask);
+      input.value = '';
+
+      if (isOnline) {
+        firestoreDb.unshift({ ...newTask });
+      } else {
+        syncQueue.push({
+          id: 'q_' + newId,
+          taskId: newId,
+          operation: 'create',
+          payload: JSON.stringify(newTask)
+        });
+      }
+      renderLists();
+    }
+
+    // Delete task inside Simulator
+    function deleteSimTask(id) {
+      localTasks = localTasks.filter(t => t.id !== id);
+      if (isOnline) {
+        firestoreDb = firestoreDb.filter(t => t.id !== id);
+      } else {
+        // If task was pending create, just remove from queue, else log delete queue
+        const wasPendingCreate = syncQueue.some(q => q.taskId === id && q.operation === 'create');
+        if (wasPendingCreate) {
+          syncQueue = syncQueue.filter(q => q.taskId !== id);
+        } else {
+          syncQueue.push({
+            id: 'q_del_' + id,
+            taskId: id,
+            operation: 'delete',
+            payload: JSON.stringify({ id })
+          });
+        }
+      }
+      renderLists();
+    }
+
+    // Simulate Background Replay queue to Firestore
+    function triggerBackgroundSync() {
+      if (syncQueue.length === 0) return;
+
+      const indicator = document.getElementById('sync-indicator');
+      indicator.textContent = '⚡ Replaying sync queue...';
+      indicator.style.color = 'var(--primary)';
+
+      setTimeout(() => {
+        syncQueue.forEach((queueItem) => {
+          if (queueItem.operation === 'create') {
+            const task = JSON.parse(queueItem.payload);
+            task.syncStatus = 'synced';
+            
+            // Update local task reference status
+            const localTask = localTasks.find(t => t.id === task.id);
+            if (localTask) localTask.syncStatus = 'synced';
+
+            // Push to cloud Firestore
+            firestoreDb.unshift(task);
+          } else if (queueItem.operation === 'delete') {
+            firestoreDb = firestoreDb.filter(t => t.id !== queueItem.taskId);
+          }
+        });
+
+        syncQueue = [];
+        indicator.textContent = '✓ Cloud fully synced';
+        indicator.style.color = 'var(--success)';
+        
+        setTimeout(() => {
+          indicator.textContent = 'Idle';
+          indicator.style.color = 'var(--text-secondary)';
+        }, 2000);
+
+        renderLists();
+      }, 1500); // 1.5 second animation latency delay
+    }
+
+    // Render local Realm layout list and Firestore DB JSON log
+    function renderLists() {
+      const taskList = document.getElementById('task-list');
+      const firestoreDocs = document.getElementById('firestore-docs');
+
+      // Local Realm List
+      taskList.innerHTML = '';
+      if (localTasks.length === 0) {
+        taskList.innerHTML = '<div style="color:var(--text-secondary);text-align:center;margin-top:2rem;font-size:0.9rem;">Realm task list is empty.</div>';
+      } else {
+        localTasks.forEach(task => {
+          const badgeText = task.syncStatus === 'synced' ? '✓ Synced' : '⚡ Pending Save';
+          const badgeClass = task.syncStatus === 'synced' ? 'badge-sync' : 'badge-pending';
+          
+          taskList.innerHTML += `
+            <div class="sim-task-item">
+              <div class="task-meta">
+                <div class="task-title">${task.title}</div>
+                <div class="task-badge ${badgeClass}">${badgeText}</div>
+              </div>
+              <button class="sim-delete-btn" onclick="deleteSimTask('${task.id}')">Delete</button>
+            </div>
+          `;
+        });
+      }
+
+      // Firestore JSON database display
+      if (firestoreDb.length === 0) {
+        firestoreDocs.innerHTML = '<div class="firestore-placeholder">Cloud storage is empty. Add tasks while Online, or transition from Offline to Online.</div>';
+      } else {
+        let jsonStr = '[\n';
+        firestoreDb.forEach((doc, idx) => {
+          jsonStr += `  {\n    "id": "${doc.id}",\n    "title": "${doc.title}",\n    "syncStatus": "synced"\n  }${idx < firestoreDb.length - 1 ? ',' : ''}\n`;
+        });
+        jsonStr += ']';
+        firestoreDocs.innerHTML = `<pre><code>${jsonStr}</code></pre>`;
+      }
+    }
+
     window.onload = () => {
+      // Load initial code snippet
       const codeBlock = document.getElementById('code-block');
       codeBlock.textContent = codeSnippets.sync;
       Prism.highlightElement(codeBlock);
+
+      // Render initial simulator lists
+      renderLists();
     };
   </script>
 </body>
