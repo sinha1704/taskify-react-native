@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskify - Offline-First Task Management App</title>
+  <style>
+    :root {
+      --bg: #0f0c1b;
+      --surface: rgba(255, 255, 255, 0.05);
+      --primary: #bb86fc;
+      --text: #e6e1e5;
+      --text-secondary: #cac4d0;
+      --border: rgba(255, 255, 255, 0.1);
+      --success: #81c784;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background: radial-gradient(circle at center, #1b1437 0%, var(--bg) 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    h1 {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    
+    .badge {
+      background: rgba(187, 134, 252, 0.15);
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(187, 134, 252, 0.25);
+    }
+
+    .badge.success {
+      background: rgba(129, 199, 132, 0.15);
+      color: var(--success);
+      border-color: rgba(129, 199, 132, 0.25);
+    }
+    
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s ease-in-out;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: #0f0c1b;
+    }
+    
+    .btn-primary:hover {
+      background: #d0bcff;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Taskify</h1>
+    <p>
+      An advanced, production-grade Offline-First Task Management App built with React Native (TypeScript). Featuring local database replication, auto cloud sync scheduling, and local/push notification triggers.
+    </p>
+    
+    <div class="badge-container">
+      <span class="badge">React Native</span>
+      <span class="badge">TypeScript</span>
+      <span class="badge">Realm DB</span>
+      <span class="badge">Redux Toolkit</span>
+      <span class="badge">Firebase Auth</span>
+      <span class="badge">Firestore</span>
+      <span class="badge success">✓ Live Build</span>
+    </div>
+    
+    <div class="btn-group">
+      <a href="https://github.com/sinha1704/taskify-react-native" target="_blank" class="btn btn-primary">
+        View GitHub Repository
+      </a>
+      <a href="https://github.com/sinha1704/taskify-react-native/blob/main/README.md" target="_blank" class="btn btn-secondary">
+        Read Architecture docs
+      </a>
+    </div>
+  </div>
+</body>
+</html>
