@@ -193,6 +193,8 @@
       flex-direction: column;
       gap: 1.25rem;
       min-height: 480px;
+      width: 100%;
+      overflow: hidden; /* Prevent internal width leaks */
     }
 
     .panel-header {
@@ -256,6 +258,7 @@
       font-size: 0.9rem;
       outline: none;
       transition: all 0.2s;
+      min-width: 0; /* Allow the input to shrink smaller than default */
     }
 
     .sim-input:focus {
@@ -270,6 +273,7 @@
       border-radius: 10px;
       font-weight: 700;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .sim-task-list {
@@ -290,16 +294,20 @@
       align-items: center;
       justify-content: space-between;
       animation: taskFadeIn 0.3s ease;
+      overflow: hidden;
     }
 
     .task-meta {
       flex: 1;
+      margin-right: 0.75rem;
+      min-width: 0;
     }
 
     .task-title {
       font-size: 0.95rem;
       font-weight: 600;
       color: #ffffff;
+      word-break: break-word;
     }
 
     .task-badge {
@@ -318,6 +326,7 @@
       color: var(--error);
       cursor: pointer;
       font-size: 0.85rem;
+      white-space: nowrap;
     }
 
     /* Cloud Firestore mock side */
@@ -332,6 +341,14 @@
       color: #81c784;
       overflow-y: auto;
       max-height: 380px;
+    }
+
+    /* Force JSON mock to wrap and prevent container stretching */
+    .firestore-docs pre {
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin: 0;
+      padding: 0;
     }
 
     .firestore-placeholder {
@@ -497,11 +514,11 @@
     /* Mobile Responsive Viewport Overrides */
     @media (max-width: 750px) {
       body {
-        padding: 1.5rem 1rem;
+        padding: 1.5rem 0.75rem; /* Margins around screen border */
       }
 
       .hero-card {
-        padding: 2.5rem 1.25rem;
+        padding: 2.25rem 1rem;
         border-radius: 20px;
       }
 
@@ -527,13 +544,14 @@
 
       .sync-simulator {
         grid-template-columns: 1fr;
-        padding: 1.25rem;
-        gap: 1.5rem;
+        padding: 1rem;
+        gap: 1.25rem;
+        border-radius: 20px;
       }
 
       .sim-panel {
         min-height: auto;
-        padding: 1.25rem 1rem;
+        padding: 1rem;
       }
 
       /* Stack header elements vertically on mobile to prevent text clipping */
@@ -617,7 +635,7 @@
         </div>
         
         <div class="sim-input-row">
-          <input type="text" id="task-input" class="sim-input" placeholder="Enter task title (e.g. Write realm schema)" onkeydown="if(event.key==='Enter') addSimTask()" />
+          <input type="text" id="task-input" class="sim-input" placeholder="Enter task title..." onkeydown="if(event.key==='Enter') addSimTask()" />
           <button class="sim-add-btn" onclick="addSimTask()">Add</button>
         </div>
 
